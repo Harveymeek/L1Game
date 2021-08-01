@@ -12,19 +12,23 @@
         window.onload = function() {
             canvas = document.getElementById('gameCanvas');
             canvasContext = canvas.getContext('2d');
-//E
-           
 
+            
             setInterval(mainloop, 1000 / 50);
         }
 
-//E
+        var playerXpos = 0;
+        var playerYpos = 0;
+        var playerXspeed = 5;
+        var playerYspeed = 4;
+        var PLAYER_SIZE = 20;
+
         
 
         function mainloop() {
             colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
             colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red'); //player
- /*e*/           
+            PlayerMove()
         }
 
 
@@ -32,7 +36,14 @@
             canvasContext.fillStyle = c;
             canvasContext.fillRect(x, y, w, h);
         }
-//E
+
+        function PlayerMove() {
+            playerXpos += playerXspeed;
+            playerYpos += playerXspeed;
+
+        }
+
+
         
 
     </script>
