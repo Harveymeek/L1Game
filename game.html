@@ -85,7 +85,7 @@
             if (leftKeyPressed && playerXpos > canvas.width *.001) {
                 playerXpos -= playerXspeed
             }
-            if (downKeyPressed) {
+            if (downKeyPressed && playerYpos < canvas.height *.95) {
                 playerYpos += playerYspeed
             }
             if (upKeyPressed) {
