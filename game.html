@@ -25,6 +25,17 @@
         var playerYspeed = 4;
         var PLAYER_SIZE = 20;
 
+        function mainloop() {
+            colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
+            colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red'); //player
+        }
+
+        function colorRect(x, y, w, h, c) {
+            canvasContext.fillStyle = c;
+            canvasContext.fillRect(x, y, w, h);
+            PlayerMove(playerXspeed, playerYspeed)
+        }
+
         const RIGHT_KEY = 39;
         var rightKeyPressed = true;
         var rightKeyReleased = false;
