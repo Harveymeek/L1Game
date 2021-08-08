@@ -19,6 +19,16 @@
             setInterval(mainloop, 1000 / 50);
         }
 
+        var enemyXpos = 4
+        var enemyYpos = 4
+        var enemyXspeed = 0
+        var ENEMY_SIZE = 30
+        
+        
+        
+        
+        
+        
         var playerXpos = 0;
         var playerYpos = 0;
         var playerXspeed = 20;
@@ -38,8 +48,8 @@
         function mainloop() {
             colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
             colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red'); //player
-
-            PlayerMove();
+            colorRect(enemyXpos, enemyYpos, ENEMY_SIZE, ENEMY_SIZE, 'blue');
+            PlayerMove()
         }
 
         function colorRect(x, y, w, h, c) {
