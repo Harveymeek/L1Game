@@ -19,15 +19,15 @@
             setInterval(mainloop, 1000 / 50);
         }
 
-        var enemyXpos = 4
-        var enemyYpos = 4
-        var enemyXspeed = 4
-        var ENEMY_SIZE = 30
+        var enemyXpos = 1900;
+        var enemyYpos = 300;
+        var enemyXspeed = 4;
+        var ENEMY_SIZE = 30;
 
-        var playerXpos = 0;
-        var playerYpos = 0;
-        var playerXspeed = 20;
-        var playerYspeed = 20;
+        var playerXpos = 500;
+        var playerYpos = 400;
+        var playerXspeed = 10;
+        var playerYspeed = 10;
         var PLAYER_SIZE = 20;
 
         const RIGHT_KEY = 39;
@@ -101,7 +101,11 @@
         }
 
         function EnemyMove() {
-            enemyXpos += enemyXspeed
+            if (enemyXpos > canvas.width * .001) {
+                enemyXpos -= enemyXspeed
+            } else if (enemyXpos < canvas.width * .001) {
+                enemyXpos = 1900;
+            }
         }
 
     </script>
