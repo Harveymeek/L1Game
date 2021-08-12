@@ -19,10 +19,7 @@
             setInterval(mainloop, 1000 / 50);
         }
 
-        var enemyXpos = 1900;
-        var enemyYpos = 300;
-        var enemyXspeed = 4;
-        var ENEMY_SIZE = 30;
+
 
         var playerXpos = 500;
         var playerYpos = 400;
@@ -40,14 +37,29 @@
         var downKeyPressed = false;
         var upKeyPressed = false;
 
+        var enemies = [];
+
+        var starting = true;
+
+
         function mainloop() {
             colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
             colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red'); //player
-            colorRect(enemyXpos, enemyYpos, ENEMY_SIZE, ENEMY_SIZE, 'blue');
+            //            colorRect(enemyXpos, enemyYpos, ENEMY_SIZE, ENEMY_SIZE, 'blue');
             PlayerMove()
+
+            if (starting) {
+                enemyXpos = canvas.width / 4;
+                for (var i = 0; i < 10; i++) {
+                    makeEnemy();
+
+                }
+                starting = false;
+
+            }
+            drawEnemy();
             EnemyMove()
         }
-
 
         function colorRect(x, y, w, h, c) {
             canvasContext.fillStyle = c;
@@ -100,12 +112,45 @@
             }
         }
 
-        function EnemyMove() {
-            if (enemyXpos > canvas.width * .001) {
-                enemyXpos -= enemyXspeed
-            } else if (enemyXpos < canvas.width * .001) {
-                enemyXpos = 1900;
+
+        function drawEnemy() {
+            enemies.forEach(function(e, i, array) {
+                colorRect(e.enemyXpos, e.enemyYpos, e.ENEMY_SIZE, e.ENEMY_SIZE, 'blue');
+            });
+        }
+
+
+        function makeEnemy() {
+            var ENEMY_SIZE = 30;
+            var enemyXpos = 1900;
+            var enemyYpos = Math.floor(Math.random() * (canvas.width - ENEMY_SIZE));
+            var enemyXspeed = 5;
+
+            var enemy = {
+                enemyXpos: enemyXpos,
+                enemyYpos: enemyYpos,
+                ENEMY_SIZE: ENEMY_SIZE,
+                enemyXspeed: enemyXspeed
+
             }
+            enemies.push(enemy);
+
+
+        }
+
+
+
+        function EnemyMove() {
+            enemies.forEach(function(e, i, array) {
+                if (e.enemyXpos < canvas.height) {
+                    e.enemyXpos = 1900
+                    e.enemyXspeed = Math.floor(Math.random() * (15 - 5) + 5);
+                }
+                e.enemyXpos -= e.enemyXspeed
+                //                if (e.enemyXpos < canvas.width) {
+                //                    e.enemyXspeed = Math.floor(Math.random() * (15 - 5) + 5);
+                //                }
+            });
         }
 
     </script>
