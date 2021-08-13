@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <canvas id="gameCanvas" width="1900" height="900"></canvas>
+    <canvas id="gameCanvas" width="1200" height="900"></canvas>
     <script>
         var canvas, canvasContext;
 
@@ -49,8 +49,8 @@
             PlayerMove()
 
             if (starting) {
-                enemyXpos = canvas.width / 4;
-                for (var i = 0; i < 10; i++) {
+                enemyXpos = canvas.width / 2;
+                for (var i = 0; i < 30; i++) {
                     makeEnemy();
 
                 }
@@ -122,9 +122,9 @@
 
         function makeEnemy() {
             var ENEMY_SIZE = 30;
-            var enemyXpos = 1900;
+            var enemyXpos = canvas.width;
             var enemyYpos = Math.floor(Math.random() * (canvas.width - ENEMY_SIZE));
-            var enemyXspeed = 5;
+            var enemyXspeed = Math.floor(Math.random() * (15 - 5) + 5);;
 
             var enemy = {
                 enemyXpos: enemyXpos,
@@ -142,9 +142,10 @@
 
         function EnemyMove() {
             enemies.forEach(function(e, i, array) {
-                if (e.enemyXpos < canvas.height) {
-                    e.enemyXpos = 1900
-                    e.enemyXspeed = Math.floor(Math.random() * (15 - 5) + 5);
+                if (e.enemyXpos < 0) {
+                    e.enemyXpos = canvas.width
+                    e.enemyXspeed = Math.floor(Math.random() * (30 - 5) + 5);
+                    e.enemyYpos = Math.floor(Math.random() * (canvas.height - 0) + 5);
                 }
                 e.enemyXpos -= e.enemyXspeed
                 //                if (e.enemyXpos < canvas.width) {
