@@ -20,13 +20,12 @@
         }
 
 
-
         var playerXpos = 500;
         var playerYpos = 400;
         var playerXspeed = 10;
         var playerYspeed = 10;
         var PLAYER_SIZE = 20;
-
+   
         const RIGHT_KEY = 39;
         const LEFT_KEY = 37;
         const DOWN_KEY = 40;
@@ -50,7 +49,7 @@
 
             if (starting) {
                 enemyXpos = canvas.width / 2;
-                for (var i = 0; i < 30; i++) {
+                for (var i = 0; i < 15; i++) {
                     makeEnemy();
 
                 }
@@ -98,7 +97,7 @@
 
 
         function PlayerMove() {
-            if (rightKeyPressed && playerXpos < canvas.width * .989) {
+            if (rightKeyPressed && playerXpos < canvas.width * .980) {
                 playerXpos += playerXspeed
             }
             if (leftKeyPressed && playerXpos > canvas.width * .001) {
@@ -124,7 +123,7 @@
             var ENEMY_SIZE = 30;
             var enemyXpos = canvas.width;
             var enemyYpos = Math.floor(Math.random() * (canvas.width - ENEMY_SIZE));
-            var enemyXspeed = Math.floor(Math.random() * (15 - 5) + 5);;
+            var enemyXspeed = Math.floor(Math.random() * (30 - 5) + 5);;
 
             var enemy = {
                 enemyXpos: enemyXpos,
@@ -148,6 +147,16 @@
                     e.enemyYpos = Math.floor(Math.random() * (canvas.height - 0) + 5);
                 }
                 e.enemyXpos -= e.enemyXspeed
+
+                if (e.enemyXpos < playerXpos + PLAYER_SIZE 
+                    &&  e.enemyXpos + e.ENEMY_SIZE > playerXpos &&
+                    e.enemyYpos < playerYpos + PLAYER_SIZE &&
+                    e.enemyYpos + e.ENEMY_SIZE > playerYpos
+                   ) {
+                    console.log('hit')
+                }
+
+
                 //                if (e.enemyXpos < canvas.width) {
                 //                    e.enemyXspeed = Math.floor(Math.random() * (15 - 5) + 5);
                 //                }
