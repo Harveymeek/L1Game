@@ -8,7 +8,7 @@
     <canvas id="gameCanvas" width="1200" height="900"></canvas>
     <script>
         var canvas, canvasContext;
-
+        
         window.onload = function() {
             canvas = document.getElementById('gameCanvas');
             canvasContext = canvas.getContext('2d');
@@ -25,7 +25,7 @@
         var playerXspeed = 10;
         var playerYspeed = 10;
         var PLAYER_SIZE = 20;
-   
+
         const RIGHT_KEY = 39;
         const LEFT_KEY = 37;
         const DOWN_KEY = 40;
@@ -40,11 +40,13 @@
 
         var starting = true;
 
+        
 
         function mainloop() {
             colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
             colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red'); //player
             //            colorRect(enemyXpos, enemyYpos, ENEMY_SIZE, ENEMY_SIZE, 'blue');
+            
             PlayerMove()
 
             if (starting) {
@@ -65,6 +67,12 @@
             canvasContext.fillRect(x, y, w, h);
         }
 
+        function colorText(msg,x,y,f,c){
+            canvasContext.font = f;
+            canvasContext.fillStyle = c;
+            canvasContext.fillText(msg, x, y);
+        }
+        
         function keyPressed(evt) {
             if (evt.keyCode == RIGHT_KEY) {
                 rightKeyPressed = true;
@@ -145,17 +153,23 @@
                     e.enemyXpos = canvas.width
                     e.enemyXspeed = Math.floor(Math.random() * (30 - 5) + 5);
                     e.enemyYpos = Math.floor(Math.random() * (canvas.height - 0) + 5);
+                    
                 }
                 e.enemyXpos -= e.enemyXspeed
 
-                if (e.enemyXpos < playerXpos + PLAYER_SIZE 
-                    &&  e.enemyXpos + e.ENEMY_SIZE > playerXpos &&
+                if (e.enemyXpos < playerXpos + PLAYER_SIZE &&
+                    e.enemyXpos + e.ENEMY_SIZE > playerXpos &&
                     e.enemyYpos < playerYpos + PLAYER_SIZE &&
                     e.enemyYpos + e.ENEMY_SIZE > playerYpos
-                   ) {
+                ) {
                     console.log('hit')
                     playerXpos = 500
                     playerYpos = 400
+
+                }
+
+                if (e.enemyXpos < playerXpos) {
+                    console.log('point')
                 }
 
 
