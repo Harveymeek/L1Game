@@ -40,13 +40,13 @@
 
         var starting = true;
 
-        
+        var score = 0;
 
         function mainloop() {
             colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
             colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red'); //player
             //            colorRect(enemyXpos, enemyYpos, ENEMY_SIZE, ENEMY_SIZE, 'blue');
-            
+            colorText('score: ' + score,50,50,'20px Arial','red');
             PlayerMove()
 
             if (starting) {
@@ -153,7 +153,7 @@
                     e.enemyXpos = canvas.width
                     e.enemyXspeed = Math.floor(Math.random() * (30 - 5) + 5);
                     e.enemyYpos = Math.floor(Math.random() * (canvas.height - 0) + 5);
-                    
+                    score++;
                 }
                 e.enemyXpos -= e.enemyXspeed
 
@@ -163,8 +163,12 @@
                     e.enemyYpos + e.ENEMY_SIZE > playerYpos
                 ) {
                     console.log('hit')
-                    playerXpos = 500
-                    playerYpos = 400
+                    playerXpos = canvas.width / 2
+                    playerYpos = canvas.height / 2;
+                    score = 0;
+                    enemies.forEach(function(e, i, array) {
+                        e.enemyXpos = canvas.width
+                    });
 
                 }
 
