@@ -8,7 +8,7 @@
     <canvas id="gameCanvas" width="1200" height="900"></canvas>
     <script>
         var canvas, canvasContext;
-        
+
         window.onload = function() {
             canvas = document.getElementById('gameCanvas');
             canvasContext = canvas.getContext('2d');
@@ -20,8 +20,8 @@
         }
 
 
-        var playerXpos = 500;
-        var playerYpos = 400;
+        var playerXpos = 600;
+        var playerYpos = 450;
         var playerXspeed = 10;
         var playerYspeed = 10;
         var PLAYER_SIZE = 20;
@@ -40,13 +40,15 @@
 
         var starting = true;
 
+        var lives = 3;
+        
         var score = 0;
 
         function mainloop() {
             colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
             colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red'); //player
             //            colorRect(enemyXpos, enemyYpos, ENEMY_SIZE, ENEMY_SIZE, 'blue');
-            colorText('score: ' + score,50,50,'20px Arial','red');
+            colorText('score: ' + score, 50, 50, '20px Arial', 'red');
             PlayerMove()
 
             if (starting) {
@@ -67,12 +69,12 @@
             canvasContext.fillRect(x, y, w, h);
         }
 
-        function colorText(msg,x,y,f,c){
+        function colorText(msg, x, y, f, c) {
             canvasContext.font = f;
             canvasContext.fillStyle = c;
             canvasContext.fillText(msg, x, y);
         }
-        
+
         function keyPressed(evt) {
             if (evt.keyCode == RIGHT_KEY) {
                 rightKeyPressed = true;
@@ -163,9 +165,12 @@
                     e.enemyYpos + e.ENEMY_SIZE > playerYpos
                 ) {
                     console.log('hit')
-                    playerXpos = 500
-                    playerYpos = 400
+                    playerXpos = canvas.width / 2
+                    playerYpos = canvas.height / 2;
                     score = 0;
+                    enemies.forEach(function(e, i, array) {
+                        e.enemyXpos = canvas.width
+                    });
 
                 }
 
