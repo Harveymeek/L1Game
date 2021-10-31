@@ -44,6 +44,11 @@
         
         var score = 0;
 
+        var userName='';
+        while(userName == '' || userName == null){
+            userName = prompt('whats your user name?')
+        }
+        
         function mainloop() {
             colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
             colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red'); //player
@@ -171,6 +176,7 @@
                     score = 0;
                     enemies.forEach(function(e, i, array) {
                         e.enemyXpos = canvas.width
+                   lives--
                     });
 
                 }
