@@ -41,14 +41,36 @@
         var starting = true;
 
         var lives = 3;
-        
-        var score = 0;
 
-        var userName='';
-        while(userName == '' || userName == null){
+        var eNum = 0;
+        
+            
+            var score = 0;
+
+        var speed = 0;
+
+        var difficulty = '';
+        var pass = false;
+
+        while(pass == false) { //until happy no exit loop
+            difficulty = prompt('which difficulty do you want? easy, medium, or hard');
+            if (difficulty != null) {
+                pass = true;
+                //convert to lower case Easy
+            }
+
+        }
+
+        if (difficulty == 'easy') {
+            eNum = 5;
+        }
+
+
+        var userName = '';
+        while (userName == '' || userName == null) {
             userName = prompt('whats your user name?')
         }
-        
+
         function mainloop() {
             colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
             colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red'); //player
@@ -59,7 +81,7 @@
 
             if (starting) {
                 enemyXpos = canvas.width / 2;
-                for (var i = 0; i < 15; i++) {
+                for (var i = 0; i < eNum; i++) {
                     makeEnemy();
 
                 }
@@ -176,7 +198,7 @@
                     score = 0;
                     enemies.forEach(function(e, i, array) {
                         e.enemyXpos = canvas.width
-                   lives--
+                        lives--
                     });
 
                 }
@@ -184,6 +206,8 @@
                 if (e.enemyXpos < playerXpos) {
                     console.log('point')
                 }
+                
+                
 
 
                 //                if (e.enemyXpos < canvas.width) {
