@@ -44,7 +44,7 @@
 
         var eNum = 0;
         
-            
+        
             var score = 0;
 
         var speed = 0;
@@ -55,6 +55,8 @@
         while(pass == false) { //until happy no exit loop
             difficulty = prompt('which difficulty do you want? easy, medium, or hard');
             if (difficulty != null) {
+                difficulty = difficulty.toLowerCase()
+                if(difficulty == 'easy' || difficulty == 'medium' || difficulty == 'hard')
                 pass = true;
                 //convert to lower case Easy
             }
@@ -69,6 +71,9 @@
             eNum = 15;
         }
 
+        if (difficulty == 'hard') {
+            eNum = 30;
+        }
         var userName = '';
         while (userName == '' || userName == null) {
             userName = prompt('whats your user name?')
