@@ -44,6 +44,9 @@
 
         var eNum = 0;
         
+        var gameRun = true;
+            
+        
         
             var score = 0;
 
@@ -80,6 +83,8 @@
         }
 
         function mainloop() {
+            if(gameRun){
+                
             colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
             colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red'); //player
             //            colorRect(enemyXpos, enemyYpos, ENEMY_SIZE, ENEMY_SIZE, 'blue');
@@ -98,6 +103,12 @@
             }
             drawEnemy();
             EnemyMove()
+            }else{
+                gameRun = false;
+                colorRect(0, 0, canvas.width, canvas.height, 'black');
+                colorText(userName + ', your score is ' + score, 100, 50, '40px Arial', 'white');
+                
+            }
         }
 
         function colorRect(x, y, w, h, c) {
@@ -203,7 +214,7 @@
                     console.log('hit')
                     playerXpos = canvas.width / 2
                     playerYpos = canvas.height / 2;
-                    score = 0;
+                    gameRun = false;
                     enemies.forEach(function(e, i, array) {
                         e.enemyXpos = canvas.width
                         lives--
