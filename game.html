@@ -25,22 +25,24 @@
         var playerXspeed = 10;
         var playerYspeed = 10;
         var PLAYER_SIZE = 20;
-
+//player variables
+        
         const RIGHT_KEY = 39;
         const LEFT_KEY = 37;
         const DOWN_KEY = 40;
         const UP_KEY = 38;
-
+//keyCodes
+        
         var rightKeyPressed = false;
         var leftKeyPressed = false;
         var downKeyPressed = false;
         var upKeyPressed = false;
 
+        //key press variables
+        
         var enemies = [];
 
         var starting = true;
-
-        var lives = 3;
 
         var eNum = 0;
         
@@ -59,9 +61,9 @@
             difficulty = prompt('which difficulty do you want? easy, medium, or hard');
             if (difficulty != null) {
                 difficulty = difficulty.toLowerCase()
-                if(difficulty == 'easy' || difficulty == 'medium' || difficulty == 'hard')
+                if(difficulty == 'easy' || difficulty == 'medium' || difficulty == 'hard' || difficulty == 'nightmare')
                 pass = true;
-                //convert to lower case Easy
+                //converts to lower case, Easy
             }
 
         }
@@ -77,6 +79,11 @@
         if (difficulty == 'hard') {
             eNum = 30;
         }
+        
+        if (difficulty == 'nightmare') {
+            eNum = 50;
+        }
+        
         var userName = '';
         while (userName == '' || userName == null) {
             userName = prompt('whats your user name?')
@@ -89,7 +96,6 @@
             colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red'); //player
             //            colorRect(enemyXpos, enemyYpos, ENEMY_SIZE, ENEMY_SIZE, 'blue');
             colorText('score: ' + score, 50, 50, '20px Arial', 'red');
-            colorText('lives: ' + lives, 200, 50, '20px Arial', 'red');
             PlayerMove()
 
             if (starting) {
@@ -106,7 +112,8 @@
             }else{
                 gameRun = false;
                 colorRect(0, 0, canvas.width, canvas.height, 'black');
-                colorText(userName + ', your score is ' + score, 100, 50, '40px Arial', 'white');
+               colorText('You Died', canvas.width/3, canvas.height/3, '100px Arial', 'red');
+                colorText(userName + ', your score was ' + score, canvas.width/3, canvas.height/1.5, '40px Arial', 'white');
                 
             }
         }
@@ -115,14 +122,16 @@
             canvasContext.fillStyle = c;
             canvasContext.fillRect(x, y, w, h);
         }
-
+//function ends
+        
         function colorText(msg, x, y, f, c) {
             canvasContext.font = f;
             canvasContext.fillStyle = c;
             canvasContext.fillText(msg, x, y);
         }
 
-        function keyPressed(evt) {
+        //end func
+        function keyPressed(evt) {  //get key press events for movement
             if (evt.keyCode == RIGHT_KEY) {
                 rightKeyPressed = true;
             }
@@ -137,7 +146,7 @@
             }
         }
 
-        function keyReleased(evt) {
+        function keyReleased(evt) {  //get key released events for movement
             if (evt.keyCode == RIGHT_KEY) {
                 rightKeyPressed = false;
             }
@@ -151,7 +160,7 @@
                 upKeyPressed = false;
             }
         }
-
+//end func
 
         function PlayerMove() {
             if (rightKeyPressed && playerXpos < canvas.width * .980) {
@@ -167,14 +176,14 @@
                 playerYpos -= playerYspeed
             }
         }
-
+//end func
 
         function drawEnemy() {
             enemies.forEach(function(e, i, array) {
                 colorRect(e.enemyXpos, e.enemyYpos, e.ENEMY_SIZE, e.ENEMY_SIZE, 'blue');
             });
         }
-
+//end func
 
         function makeEnemy() {
             var ENEMY_SIZE = 30;
@@ -193,11 +202,11 @@
 
 
         }
-
+//end func
 
 
         function EnemyMove() {
-            enemies.forEach(function(e, i, array) {
+            enemies.forEach(function(e, i, array) { //goes through array
                 if (e.enemyXpos < 0) {
                     e.enemyXpos = canvas.width
                     e.enemyXspeed = Math.floor(Math.random() * (30 - 5) + 5);
@@ -209,13 +218,13 @@
                 if (e.enemyXpos < playerXpos + PLAYER_SIZE &&
                     e.enemyXpos + e.ENEMY_SIZE > playerXpos &&
                     e.enemyYpos < playerYpos + PLAYER_SIZE &&
-                    e.enemyYpos + e.ENEMY_SIZE > playerYpos
+                    e.enemyYpos + e.ENEMY_SIZE > playerYpos  //when player hits enemy
                 ) {
-                    console.log('hit')
+                    console.log('hit') //console logs a 'hit' 
                     playerXpos = canvas.width / 2
                     playerYpos = canvas.height / 2;
                     gameRun = false;
-                    enemies.forEach(function(e, i, array) {
+                    enemies.forEach(function(e, i, array) { 
                         e.enemyXpos = canvas.width
                         lives--
                     });
