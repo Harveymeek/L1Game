@@ -58,7 +58,7 @@
         var pass = false;
 
         while(pass == false) { //until happy no exit loop
-            difficulty = prompt('which difficulty do you want? easy, medium, or hard');
+            difficulty = prompt('which difficulty do you want? easy, medium, hard or nightmare');
             if (difficulty != null) {
                 difficulty = difficulty.toLowerCase()
                 if(difficulty == 'easy' || difficulty == 'medium' || difficulty == 'hard' || difficulty == 'nightmare')
@@ -67,21 +67,27 @@
             }
 
         }
+        
+        var color = 'red';
 
         if (difficulty == 'easy') {
             eNum = 7;
+            color = 'lime';
         }
 
         if (difficulty == 'medium') {
             eNum = 15;
+            color = 'yellow';
         }
 
         if (difficulty == 'hard') {
             eNum = 30;
+            color = 'red';
         }
         
         if (difficulty == 'nightmare') {
             eNum = 50;
+            color = 'purple';
         }
         
         var userName = '';
@@ -93,10 +99,13 @@
             if(gameRun){
                 
             colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
-            colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red'); //player
+            colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'grey'); //player
             //            colorRect(enemyXpos, enemyYpos, ENEMY_SIZE, ENEMY_SIZE, 'blue');
-            colorText('score: ' + score, 50, 50, '20px Arial', 'red');
-            PlayerMove()
+            colorText('score: ' + score, 50, 50, '20px Arial', 'white');
+            colorText('difficulty: ', 300, 50, '20px Arial', 'white');
+            colorText(difficulty, 390, 50, '20px Arial', color);
+            
+                PlayerMove()
 
             if (starting) {
                 enemyXpos = canvas.width / 2;
@@ -114,7 +123,6 @@
                 colorRect(0, 0, canvas.width, canvas.height, 'black');
                colorText('You Died', canvas.width/3, canvas.height/3, '100px Arial', 'red');
                 colorText(userName + ', your score was ' + score, canvas.width/3, canvas.height/1.5, '40px Arial', 'white');
-                
             }
         }
 
@@ -180,7 +188,7 @@
 
         function drawEnemy() {
             enemies.forEach(function(e, i, array) {
-                colorRect(e.enemyXpos, e.enemyYpos, e.ENEMY_SIZE, e.ENEMY_SIZE, 'blue');
+                colorRect(e.enemyXpos, e.enemyYpos, e.ENEMY_SIZE, e.ENEMY_SIZE, 'color');
             });
         }
 //end func
