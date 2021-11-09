@@ -8,7 +8,7 @@
     <canvas id="gameCanvas" width="1200" height="900"></canvas>
     <script>
         var canvas, canvasContext;
-        
+
         window.onload = function() {
             canvas = document.getElementById('gameCanvas');
             canvasContext = canvas.getContext('2d');
@@ -18,62 +18,138 @@
 
             setInterval(mainloop, 1000 / 50);
         }
+        // end function
 
-
-        var playerXpos = 500;
-        var playerYpos = 400;
+        var playerXpos = 0;
+        var playerYpos = 0;
         var playerXspeed = 10;
         var playerYspeed = 10;
         var PLAYER_SIZE = 20;
+        //player variables
 
         const RIGHT_KEY = 39;
         const LEFT_KEY = 37;
         const DOWN_KEY = 40;
         const UP_KEY = 38;
+        //keyCodes
 
         var rightKeyPressed = false;
         var leftKeyPressed = false;
         var downKeyPressed = false;
         var upKeyPressed = false;
 
-        var enemies = [];
+        //key press variables
 
+        var enemies = [];
         var starting = true;
+
+        var eNum = 0;
+
+        var gameRun = true;
+
+
 
         var score = 0;
 
-        function mainloop() {
-            colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
-            colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'red'); //player
-            //            colorRect(enemyXpos, enemyYpos, ENEMY_SIZE, ENEMY_SIZE, 'blue');
-            colorText('score: ' + score,50,50,'20px Arial','red');
-            PlayerMove()
+        var speed = 0;
 
-            if (starting) {
-                enemyXpos = canvas.width / 2;
-                for (var i = 0; i < 15; i++) {
-                    makeEnemy();
+        var difficulty = '';
+        var pass = false;
 
-                }
-                starting = false;
-
+        while (pass == false) { //until happy no exit loop
+            difficulty = prompt('which difficulty do you want? easy, medium, hard or nightmare');
+            if (difficulty != null) {
+                difficulty = difficulty.toLowerCase()
+                if (difficulty == 'easy' || difficulty == 'medium' || difficulty == 'hard' || difficulty == 'nightmare')
+                    pass = true;
+                //converts to lower case, Easy
             }
-            drawEnemy();
-            EnemyMove()
+
         }
 
+        var color = 'red';
+
+        if (difficulty == 'easy') {
+            eNum = 7;
+            color = 'lime';
+        }
+
+        if (difficulty == 'medium') {
+            eNum = 15;
+            color = 'yellow';
+        }
+
+        if (difficulty == 'hard') {
+            eNum = 30;
+            color = 'red';
+        }
+
+        if (difficulty == 'nightmare') {
+            eNum = 50;
+            color = 'purple';
+        }
+        // changes enemy number value based on difficulty input
+        var userName = '';
+        while (userName == '' || userName == null) {
+            userName = prompt('whats your user name?')
+        }
+
+        var setup = true;
+
+        function mainloop() {
+            if (gameRun) {
+
+                if (setup) {
+                    playerXpos = canvas.width / 2 - PLAYER_SIZE / 2;
+                    playerYpos = canvas.height / 2;
+
+                    setup = false;
+                }
+
+                colorRect(0, 0, canvas.width, canvas.height, 'black'); // bg
+                colorRect(playerXpos, playerYpos, PLAYER_SIZE, PLAYER_SIZE, 'grey'); //player
+                //            colorRect(enemyXpos, enemyYpos, ENEMY_SIZE, ENEMY_SIZE, 'blue');
+                colorText('score: ' + score, canvas.width/12, canvas.height/19, '20px Arial', 'white');
+                colorText('difficulty: ', canvas.width/4, canvas.height/19, '20px Arial', 'white');
+                colorText(difficulty, canvas.width/3.1, canvas.height/19, '20px Arial', color);
+
+                PlayerMove()
+
+                if (starting) {
+                    enemyXpos = canvas.width / 2;
+                    for (var i = 0; i < eNum; i++) {
+                        makeEnemy();
+                        // makes enemies
+                    }
+                    starting = false;
+
+                }
+                drawEnemy();
+                EnemyMove()
+            } else {
+                gameRun = false;
+                colorRect(0, 0, canvas.width, canvas.height, 'black'); // changes the canvas when the player hits enemy
+                colorText('You Died', canvas.width / 3, canvas.height / 3, '100px Arial', 'red'); // death message
+                colorText(userName + ', your score was ' + score, canvas.width / 3, canvas.height / 1.5, '40px Arial', 'white'); // displays the username and the score
+            }
+        }
+        // end function
         function colorRect(x, y, w, h, c) {
             canvasContext.fillStyle = c;
             canvasContext.fillRect(x, y, w, h);
         }
+        // end function
 
-        function colorText(msg,x,y,f,c){
+        function colorText(msg, x, y, f, c) {
             canvasContext.font = f;
             canvasContext.fillStyle = c;
             canvasContext.fillText(msg, x, y);
         }
-        
-        function keyPressed(evt) {
+
+        //end function
+
+
+        function keyPressed(evt) { //get key press events for movement
             if (evt.keyCode == RIGHT_KEY) {
                 rightKeyPressed = true;
             }
@@ -87,8 +163,8 @@
                 upKeyPressed = true;
             }
         }
-
-        function keyReleased(evt) {
+        // end function
+        function keyReleased(evt) { //get key released events for movement
             if (evt.keyCode == RIGHT_KEY) {
                 rightKeyPressed = false;
             }
@@ -102,9 +178,9 @@
                 upKeyPressed = false;
             }
         }
+        //end func
 
-
-        function PlayerMove() {
+        function PlayerMove() { // creates a barrier for the player on the edges of the canvas by allowing the player to move within the canvas, and stopping if it goes too far on one edge
             if (rightKeyPressed && playerXpos < canvas.width * .980) {
                 playerXpos += playerXspeed
             }
@@ -118,14 +194,14 @@
                 playerYpos -= playerYspeed
             }
         }
+        //end func 
 
-
-        function drawEnemy() {
+        function drawEnemy() {  // 
             enemies.forEach(function(e, i, array) {
-                colorRect(e.enemyXpos, e.enemyYpos, e.ENEMY_SIZE, e.ENEMY_SIZE, 'blue');
+                colorRect(e.enemyXpos, e.enemyYpos, e.ENEMY_SIZE, e.ENEMY_SIZE, 'color');
             });
         }
-
+        //end func
 
         function makeEnemy() {
             var ENEMY_SIZE = 30;
@@ -133,7 +209,7 @@
             var enemyYpos = Math.floor(Math.random() * (canvas.width - ENEMY_SIZE));
             var enemyXspeed = Math.floor(Math.random() * (30 - 5) + 5);;
 
-            var enemy = {
+            var enemy = { 
                 enemyXpos: enemyXpos,
                 enemyYpos: enemyYpos,
                 ENEMY_SIZE: ENEMY_SIZE,
@@ -144,11 +220,11 @@
 
 
         }
-
+        //end func
 
 
         function EnemyMove() {
-            enemies.forEach(function(e, i, array) {
+            enemies.forEach(function(e, i, array) { //goes through array
                 if (e.enemyXpos < 0) {
                     e.enemyXpos = canvas.width
                     e.enemyXspeed = Math.floor(Math.random() * (30 - 5) + 5);
@@ -160,16 +236,16 @@
                 if (e.enemyXpos < playerXpos + PLAYER_SIZE &&
                     e.enemyXpos + e.ENEMY_SIZE > playerXpos &&
                     e.enemyYpos < playerYpos + PLAYER_SIZE &&
-                    e.enemyYpos + e.ENEMY_SIZE > playerYpos
+                    e.enemyYpos + e.ENEMY_SIZE > playerYpos //when player hits enemy
                 ) {
-                    console.log('hit')
+                    console.log('hit') //console logs a 'hit' 
                     playerXpos = canvas.width / 2
                     playerYpos = canvas.height / 2;
-                    score = 0;
+                    gameRun = false;
                     enemies.forEach(function(e, i, array) {
                         e.enemyXpos = canvas.width
                     });
-
+                    // when player's position is the same as the enemies, console log a 'hit' and set the gameRun to false, which displays the death screen
                 }
 
                 if (e.enemyXpos < playerXpos) {
@@ -177,11 +253,14 @@
                 }
 
 
+
+
                 //                if (e.enemyXpos < canvas.width) {
                 //                    e.enemyXspeed = Math.floor(Math.random() * (15 - 5) + 5);
                 //                }
             });
         }
+        // end function
 
     </script>
 </body>
